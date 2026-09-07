@@ -30,4 +30,24 @@ python optimizer.py
 ## 📈 Projected Industrial Impact
 *   **Time-to-Market:** Slices metallurgical flowsheet engineering schedules by over 80%.
 *   **Opex Reduction:** Conceptually reduces post-crushing operational energy consumption by up to 60% by shifting processing work from bulk chemical reagents to targeted, computationally directed physical sorting pathways.
-*   **Resource Efficiency:** Maximizes the net asset value (NAV) of polymetallic or low-grade laterite deposits by recovering trace high-value byproducts cleanly.
+*   **Resource Efficiency:** Maximizes the net asset value (NAV) of polymetallic or low-grade laterite deposits by recovering trace high-value byproducts cleanly.[ Incoming Raw Ore Stream ] 
+## 🗺️ System Architecture Map
+
+```text
+  [ Incoming Raw Ore Stream ] 
+               │
+               ▼
+┌──────────────────────────────────────────────┐
+│  AI MATRIX INVERSE OPTIMIZATION ARCHITECTURE │
+├──────────────────────────────────────────────┤
+│  STAGE 1: Hyperspectral Optical Multi-Band   │ ──> Detects Crystal Integrity
+│           Lattice Identification Scan        │     (Painite / Red Beryl Suite)
+│                                              │
+│  STAGE 2: Physics-Constrained Regression     │ ──> Synthesizes Optimized Operational
+│           Flowsheet Logic Processing         │     Parameters (Cu / Mo / REE Suite)
+└──────────────────────────────────────────────┘
+               │
+       ┌───────┴───────┐
+       ▼               ▼
+[ SURGICAL EJECTION ]   [ CONVENTIONAL PROCESS ]
+(Intact Gemstone Chute) (Optimized Milling Circuit)
