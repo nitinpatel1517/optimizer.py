@@ -33,7 +33,7 @@ python optimizer.py
 *   **Resource Efficiency:** Maximizes the net asset value (NAV) of polymetallic or low-grade laterite deposits by recovering trace high-value byproducts cleanly.[ Incoming Raw Ore Stream ] 
 ## 🗺️ System Architecture Map
 
-```text
+```nitin.patel1517@yahoo.com
   [ Incoming Raw Ore Stream ] 
                │
                ▼
