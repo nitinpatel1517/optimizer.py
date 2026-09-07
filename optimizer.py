@@ -1,6 +1,6 @@
 import time
 import sys
-import random
+import os
 
 # --- DASHBOARD VISUAL HELPERS ---
 def print_header(title):
@@ -11,7 +11,7 @@ def print_header(title):
 def print_separator():
     print("-"*85)
 
-def simulate_progress_bar(task_name, duration=1.5):
+def simulate_progress_bar(task_name, duration=1.2):
     """Prints a visually polished terminal loading bar for R&D realism."""
     steps = 20
     sys.stdout.write(f" [{task_name:<25}] [")
@@ -22,10 +22,34 @@ def simulate_progress_bar(task_name, duration=1.5):
         sys.stdout.flush()
     sys.stdout.write("] 100% COMPLETE\n")
 
+# --- MOCK DATA GENERATION HOOK ---
+def ensure_mock_database_exists():
+    """Generates a structured ore_data.csv if a custom file isn't uploaded."""
+    filename = "ore_data.csv"
+    if not os.path.exists(filename):
+        print_header("INITIALIZATION: GENERATING MOCK DATA PROFILE (ore_data.csv)")
+        simulate_progress_bar("Structuring CSV Fields", 0.5)
+        
+        # Simulating standard multi-element deposit readings (ID, peak wavelength, density, mass)
+        csv_payload = (
+            "SOURCE_ID,PEAK_WAVELENGTH_NM,DENSITY_G_CM3,ESTIMATED_MASS_GRAMS\n"
+            "CHUNK-001,414,4.03,1.5\n"      # True Painite Signature
+            "CHUNK-002,691,3.51,0.4\n"      # True Red Diamond Signature
+            "CHUNK-003,550,2.71,2.1\n"      # True Red Beryl Signature
+            "CHUNK-004,600,2.50,850.0\n"    # Normal Silica Gangue Matrix
+            "CHUNK-005,452,3.66,0.8\n"      # True Benitoite Signature
+            "CHUNK-006,605,2.48,1200.0\n"   # Normal Base Country Rock
+        )
+        
+        with open(filename, "w") as f:
+            f.write(csv_payload)
+        print(f" 🟢 Success: Generated local template dataset file -> '{filename}'")
+        print("    [INFO] Users can now open this file to swap out rows with custom ore parameters.")
+        print_separator()
+
 # --- CORE COMPUTATIONAL MODULES ---
 class PhysicsConstrainedInverseOptimizer:
     def __init__(self):
-        # Established thermodynamic and material properties for base metals
         self.matrix_fingerprints = {
             "Copper (Cu)":     {"mass_g_mol": 63.55,  "crystal_stiffness": "Medium", "optimal_band_ghz": "420-450 GHz"},
             "Molybdenum (Mo)": {"mass_g_mol": 95.95,  "crystal_stiffness": "High",   "optimal_band_ghz": "380-410 GHz"},
@@ -51,7 +75,6 @@ class PhysicsConstrainedInverseOptimizer:
 
 class HighValueGemstoneIsolationModule:
     def __init__(self):
-        # Non-destructive target parameters for luxury and rare materials
         self.gemstone_profiles = {
             "Red Beryl":   {"density": 2.70, "wavelength_nm": 550, "market_val_usd_g": 50000.0},
             "Painite":     {"density": 4.01, "wavelength_nm": 415, "market_val_usd_g": 300000.0},
@@ -59,24 +82,37 @@ class HighValueGemstoneIsolationModule:
             "Red Diamond": {"density": 3.52, "wavelength_nm": 690, "market_val_usd_g": 5000000.0}
         }
 
-    def execute_realtime_stream_scan(self, stream_data):
+    def execute_csv_stream_scan(self):
+        """Parses the data live directly from the local ore_data.csv file."""
         print_header("ENGINE STAGE 2: PARALLEL HYPERSPECTRAL & XRT STREAM SCAN")
-        simulate_progress_bar("Calibrating Optical Arrays", 0.8)
-        simulate_progress_bar("Parsing Live Conveyor Telemetry", 1.2)
+        simulate_progress_bar("Calibrating Optical Arrays", 0.5)
+        simulate_progress_bar("Parsing Uploaded 'ore_data.csv' Telemetry Pipeline", 1.0)
         
         print("\n -> TELEMETRY ALERT LOG & HARDWARE EJECTION INTERFACE:")
         print(f" {'SOURCE ID':<15} | {'TARGET IDENTIFIED':<18} | {'CONFIDENCE':<10} | {'PROJECTED SPOT VALUE':<22}")
         print_separator()
         
         active_ejections = False
-        for chunk_id, sensors in stream_data.items():
+        
+        # Reading data cleanly using core string splits to eliminate dependency footprints
+        with open("ore_data.csv", "r") as f:
+            lines = f.readlines()[1:] # Skip headers
+            
+        for line in lines:
+            if not line.strip():
+                continue
+            chunk_id, peak_nm, density, mass_g = line.strip().split(",")
+            peak_nm = int(peak_nm)
+            density = float(density)
+            mass_g = float(mass_g)
+            
             for gem, profile in self.gemstone_profiles.items():
-                w_match = abs(sensors["peak_nm"] - profile["wavelength_nm"]) <= 5
-                d_match = abs(sensors["density"] - profile["density"]) <= 0.15
+                w_match = abs(peak_nm - profile["wavelength_nm"]) <= 5
+                d_match = abs(density - profile["density"]) <= 0.15
                 
                 if w_match and d_match:
                     active_ejections = True
-                    gross_value = sensors["mass_g"] * profile["market_val_usd_g"]
+                    gross_value = mass_g * profile["market_val_usd_g"]
                     print(f" 🔴 {chunk_id:<11} | {gem:<18} | {'99.84%':<10} | ${gross_value:,.2f} USD")
                     print(f"    [COMMAND] -> BYPASS_MILL_CIRCUIT // ACTIVATE PNEUMATIC ISOLATION CHUTE")
                     print_separator()
@@ -88,28 +124,23 @@ class HighValueGemstoneIsolationModule:
 
 # --- LIVE EXECUTION RUNTIME ---
 if __name__ == "__main__":
-    # Initialize Software Systems
+    print("\n" + "#"*85)
+    print(" INVERSE METALLURGICAL OPTIMIZATION FRAMEWORK v0.2 // INITIALIZING CORE LOGIC")
+    print("#"*85)
+    
+    # Check data stream loop health ahead of runtime execution
+    ensure_mock_database_exists()
+    
+    # Initialize Core Pipelines
     inverse_solver = PhysicsConstrainedInverseOptimizer()
     gem_isolator = HighValueGemstoneIsolationModule()
     
-    print("\n" + "#"*85)
-    print(" INVERSE METALLURGICAL OPTIMIZATION FRAMEWORK v0.1 // INITIALIZING CORE LOGIC")
-    print("#"*85)
-    time.sleep(0.5)
-    
-    # Test Scenario A: Processing a complex suite of industrial targets
+    # Run Scenario 1: Optimization Recommendations Engine
     target_elements_input = ["Copper (Cu)", "Molybdenum (Mo)", "Neodymium (Nd)", "Dysprosium (Dy)"]
     inverse_solver.compute_inverse_flowsheet(target_elements_input)
     
-    time.sleep(0.5)
-    
-    # Test Scenario B: Monitoring a 100-ton-per-hour raw conveyor telemetry stream
-    simulated_conveyor_telemetry = {
-        "CHUNK-084A": {"peak_nm": 414, "density": 4.03, "mass_g": 1.2},  # True Painite signature
-        "CHUNK-084B": {"peak_nm": 691, "density": 3.51, "mass_g": 0.3},  # True Red Diamond signature
-        "CHUNK-084C": {"peak_nm": 600, "density": 2.50, "mass_g": 750.0} # Normal silica gangue waste
-    }
-    gem_isolator.execute_realtime_stream_scan(simulated_conveyor_telemetry)
+    # Run Scenario 2: Active CSV stream processing read 
+    gem_isolator.execute_csv_stream_scan()
     
     print_header("SYSTEM DIAGNOSTICS CLEAN // COMPLETED CONCURRENT OPTIMIZATION LOOP")
     print("  All data pipeline frames routed successfully. Awaiting localized sensor input pipelines.\n")
